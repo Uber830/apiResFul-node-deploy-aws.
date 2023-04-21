@@ -1,10 +1,19 @@
-import { createPool } from 'mysql2/promise';
+import { Sequelize } from 'sequelize';
 
 //connection
-export const pool = createPool({
-    host: '',
-    user: '',
-    password: '',
-    port: '',
-    database: '',
+const sequelize = new Sequelize('db-name','username', 'password', {
+  host: 'localhost',
+  dialect: 'mysql'
 })
+
+async function dbConnectMysql() {
+  try{
+    await sequelize.authenticate();
+    
+    console.log('Connection to planetscale!');
+  }catch(err){
+    console.log('Error of connection to planetscale \n', err);
+  }
+}
+
+export {dbConnectMysql, sequelize}
