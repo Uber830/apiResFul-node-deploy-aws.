@@ -1,8 +1,9 @@
 import { Sequelize } from 'sequelize';
+import {mySecretP, mySecretU, mySecretH, mySecretDb} from '../evn.example.js';
 
 //connection
-const sequelize = new Sequelize('db-name','username', 'password', {
-  host: 'localhost',
+const sequelize = new Sequelize(mySecretDb, mySecretU, mySecretP, {
+  host: mySecretH,
   dialect: 'mysql'
 })
 

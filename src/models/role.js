@@ -1,11 +1,9 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../../config/mysql.js';
 
-class Role extends Sequelize.Model { }
-
-Role.init({
+const Roles = sequelize.define('Roles',{
   id: {
-    type: Sequelize.INTERGER,
+    type: Sequelize.INTEGER,
     autoincrement: true,
     primarikey: true
   },
@@ -16,10 +14,18 @@ Role.init({
       len: [5,15], //min 5 max 15
       is: /^[a-z0-9]+$/i  //solo caracteres alfanumericos
     }
+  },
+  createAt: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+  },
+  updateAt: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    onUpdate: Sequelize.literal('CURRENT_TIMESTAMP')
   }
 }, {
-  sequelize,
-  modelName: 'role'
+  timestamps: false
 });
 
-export default Role
+export class RolesModel extends Roles {}
