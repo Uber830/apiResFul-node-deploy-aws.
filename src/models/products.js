@@ -1,14 +1,14 @@
-import Sequelize from 'sequelize';
-import { sequelize } from '../../config/mysql.js';
+import {DataTypes} from 'sequelize';
+import { sequelize } from '../../config/sequelize.js';
 
 const Products = sequelize.define('Products',{
   id: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
   name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false, //requerido
     validate: {
       len: [5, 15], //min 5 max 15
@@ -16,7 +16,7 @@ const Products = sequelize.define('Products',{
     }
   },
   description: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: true,
     defaultValue: "Desscription of the products",
     validate: {
@@ -24,24 +24,24 @@ const Products = sequelize.define('Products',{
     }
   },
   price: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   category: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
     validate: {
       len: [4, 30] //min 5 max 255
     }
   },
   createAt: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.DATEONLY
   },
   updateAt: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-    onUpdate: Sequelize.literal('CURRENT_TIMESTAMP')
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.DATEONLY,
+    onUpdate: DataTypes.DATE
   }
 }, {
   timestamps: false // Desactivar los timestamps generados automáticamente

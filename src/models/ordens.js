@@ -1,16 +1,16 @@
-import Sequelize from 'sequelize';
-import {sequelize} from '../../config/mysql.js';
-import ProductsModel from './products.js';
-import User from './users.js';
+import {DataTypes} from 'sequelize';
+import {sequelize} from '../../config/sequelize.js';
+import {ProductsModel} from './products.js';
+import {UsersModel} from './users.js';
 
 const Orders = sequelize.define('Orders',{
   id: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
   productId: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: ProductsModel,
@@ -18,34 +18,34 @@ const Orders = sequelize.define('Orders',{
     } 
   },
   userId: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: User,
+      model: UsersModel,
       key: 'id'
     }
   },
   amount: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   createAt: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.DATEONLY
   },
   updateAt: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-    onUpdate: Sequelize.literal('CURRENT_TIMESTAMP')
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.DATEONLY,
+    onUpdate: DataTypes.DATE
   }
 },{
   timestamps: false
 })
 
 // Definimos las relaciones
-Orders.belongsTo(Products); // Una Orders pertenece a un Products
-Orders.belongsTo(User); // Una Orders pertenece a un User
-User.hasMany(Orders); // Un User puede tener muchas Orders
-Products.hasMany(Orders); // Un Products puede tener muchas Orders
+UsersModel.hasMany(Orders); // Un UsersModel puede tener muchas Orders
+ProductsModel.hasMany(Orders); // Un ProductsModel puede tener muchas Orders
+Orders.belongsTo(ProductsModel); // Una Orders pertenece a un ProductsModel
+Orders.belongsTo(UsersModel); // Una Orders pertenece a un UsersModel
 
 export class OrdersModel extends Orders {}

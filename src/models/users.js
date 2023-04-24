@@ -1,15 +1,15 @@
-import Sequelize from 'sequelize';
-import { sequelize } from '../../config/mysql.js';
-import {RolesModel} from './role.js'
+import {DataTypes} from 'sequelize';
+import { sequelize } from '../../config/sequelize.js';
+import {RolesModel} from './role.js';
 
 const Users = sequelize.define('Users',{
   id: {
-  type: Sequelize.INTEGER,
-    autoincrement: true,
-    primarikey: true
+  type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
   },
   name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false, //requerido
     validate: {
         len: [5,15], //min 5 max 15
@@ -17,7 +17,7 @@ const Users = sequelize.define('Users',{
       }
   },
   email: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
     unique: true,
     validate: {
@@ -25,7 +25,7 @@ const Users = sequelize.define('Users',{
     }
   },
   password: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
     validate: {
       len: [8, 16],
@@ -33,12 +33,12 @@ const Users = sequelize.define('Users',{
     },
   },
   age: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     allowNull: true,
     defaultValue: 0,
   },
   country: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: true,
     defaultValue: "country",
     validate: {
@@ -47,27 +47,30 @@ const Users = sequelize.define('Users',{
       }
   },
   roleId: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: Role,
+        model: RolesModel,
         key: 'id'
     }
   },
   createAt: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.DATEONLY
   },
   updateAt: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-    onUpdate: Sequelize.literal('CURRENT_TIMESTAMP')
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.DATEONLY,
+    onUpdate: DataTypes.DATE
   },
   }, {
     timestamps: false
   })
 
-// Definimos las relaciones
-User.belongsTo(Role,{foreignKey: 'roleId'}); // Una User pertenece a un Role
+// 1:M
+//Users.belongsTo(RolesModel,{foreignKey: 'roleId'}); // Una Users pertenece a un RolesModel
+
+RolesModel.hasMany(Users,{ foreignKey: 'roleId' });
+Users.belongsTo(RolesModel, { foreignKey: 'roleId' });
 
 export class UsersModel extends Users {}

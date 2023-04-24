@@ -1,14 +1,14 @@
-import Sequelize from 'sequelize';
-import { sequelize } from '../../config/mysql.js';
+import {DataTypes} from 'sequelize';
+import { sequelize } from '../../config/sequelize.js';
 
 const Roles = sequelize.define('Roles',{
   id: {
-    type: Sequelize.INTEGER,
-    autoincrement: true,
-    primarikey: true
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
   },
   role: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
     validate: {
       len: [5,15], //min 5 max 15
@@ -16,13 +16,13 @@ const Roles = sequelize.define('Roles',{
     }
   },
   createAt: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.DATEONLY
   },
   updateAt: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-    onUpdate: Sequelize.literal('CURRENT_TIMESTAMP')
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.DATEONLY,
+    onUpdate: DataTypes.DATE
   }
 }, {
   timestamps: false
