@@ -46,14 +46,6 @@ const Users = sequelize.define('Users',{
         is: /^[a-z0-9]+$/i  //solo caracteres alfanumericos
       }
   },
-  roleId: {
-    type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: RolesModel,
-        key: 'id'
-    }
-  },
   createAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.DATEONLY
@@ -68,9 +60,6 @@ const Users = sequelize.define('Users',{
   })
 
 // 1:M
-//Users.belongsTo(RolesModel,{foreignKey: 'roleId'}); // Una Users pertenece a un RolesModel
-
-RolesModel.hasMany(Users,{ foreignKey: 'roleId' });
-Users.belongsTo(RolesModel, { foreignKey: 'roleId' });
+RolesModel.hasMany(Users, { foreignKey: 'roleId', sourceKey: 'id' });
 
 export class UsersModel extends Users {}
