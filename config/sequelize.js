@@ -17,7 +17,7 @@ const sequelize = new Sequelize( mySecretDb, mySecretU, mySecretP, {
 //message of connection to the databases
 async function dbConnectMysql() {
   try{
-    await sequelize.sync({force: true}) //create tables if not exist or delete and create
+    await sequelize.sync({force: false}) //create tables if not exist or delete and create
     await sequelize.authenticate();
     
     console.log('Connection to aws mysql!');

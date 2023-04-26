@@ -12,21 +12,12 @@ const Orders = sequelize.define('Orders',{
   amount: {
     type: DataTypes.INTEGER,
     allowNull: false,
-  },
-  createAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.DATEONLY
-  },
-  updateAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.DATEONLY,
-    onUpdate: DataTypes.DATE
   }
 },{
-  timestamps: false
+  timestamps: true
 })
 
-// Definimos las relaciones
+// 1:M
 UsersModel.hasMany(Orders ,{foreignKey: 'productId', sourceKey: 'id'}); // Un UsersModel puede tener muchas Orders
 ProductsModel.hasMany(Orders, {foreignKey: 'userId', sourceKey: 'id'}); // Un ProductsModel puede tener muchas Orders
 Orders.belongsTo(ProductsModel, {foreignKey: 'userId', targetKey: 'id'}); // Una Orders pertenece a un ProductsModel

@@ -33,18 +33,9 @@ const Products = sequelize.define('Products',{
     validate: {
       len: [4, 30] //min 5 max 255
     }
-  },
-  createAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.DATEONLY
-  },
-  updateAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.DATEONLY,
-    onUpdate: DataTypes.DATE
   }
 }, {
-  timestamps: false // Desactivar los timestamps generados automáticamente
+  timestamps: true // Desactivar los timestamps generados automáticamente
 })
 
 export class ProductsModel extends Products {}

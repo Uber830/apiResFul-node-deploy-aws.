@@ -45,21 +45,13 @@ const Users = sequelize.define('Users',{
         len: [4,30], //min 5 max 15
         is: /^[a-z0-9]+$/i  //solo caracteres alfanumericos
       }
-  },
-  createAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.DATEONLY
-  },
-  updateAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.DATEONLY,
-    onUpdate: DataTypes.DATE
-  },
+  }
   }, {
-    timestamps: false
+    timestamps: true
   })
 
 // 1:M
-RolesModel.hasMany(Users, { foreignKey: 'roleId', sourceKey: 'id' });
+RolesModel.hasMany(Users, { foreignKey: 'roleId', sourceKey: 'id'});
+Users.belongsTo(RolesModel, {foreignKey: 'roleId', targetKey: 'id'});
 
 export class UsersModel extends Users {}

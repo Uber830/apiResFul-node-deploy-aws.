@@ -14,18 +14,9 @@ const Roles = sequelize.define('Roles',{
       len: [5,15], //min 5 max 15
       is: /^[a-z0-9]+$/i  //solo caracteres alfanumericos
     }
-  },
-  createAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.DATEONLY
-  },
-  updateAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.DATEONLY,
-    onUpdate: DataTypes.DATE
   }
 }, {
-  timestamps: false
+  timestamps: true
 });
 
 export class RolesModel extends Roles {}
