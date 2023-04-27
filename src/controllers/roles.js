@@ -3,25 +3,29 @@ import { Response } from '../helpers/response.js';
 
 // get all roles
 const getAllRoles = async (req, res) => {
-  const users = await RolesModel.findAll();
+  try{
+    const users = await RolesModel.findAll();
 
-  Response.success(res, users)
+    Response.success(res, users)
+  }catch(err){
+    Response.error(res, err)
+  }
 };
 
 //create role
 const postRoles = async (req, res) => {
-  const { role } = req.body;
-
-  const userOrigin = await RolesModel.findOne({
+  try{
+    const { role } = req.body;
+  
+   const userOrigin = await RolesModel.findOne({
     where: {
       role
     }
   });
-  const dataUser = userOrigin.dataValues['role']
-
+  
   //validar si ese rol ya existe
-  if(userOrigin.hasOwnProperty('role') && dataUser === role){
-     Response.error(res, 404, 'users exists') 
+  if(Object.values(userOrigin.dataValues)[1] === role){
+    Response.error(res, 404, 'role existente') 
   }
 
   const { dataValues } = await RolesModel.create({ role });
@@ -37,21 +41,48 @@ const postRoles = async (req, res) => {
       id
     }
   });
+  const userSave = data.dataValues
+  console.log(userSave)
 
   //validar si nos llega data o es un hermoso null
-  console.log('validacion final  ' + data)
-
-  Response.success(res, 'Usuario creado');
+  if(Object.is(userSave, null)){
+    console.log('Error en la creacion')
+  }else{
+   Response.success(res, 'Usuario creado');
+  }
+  }catch(err){
+   Response.error(res, 500, err) 
+  }
 };
 
 //update role
-const putRoles = (req, res) => {
+const putRoles = async (req, res) => {
+  const {id} = req.params;
+  const {role} = req.params;
 
+  aw
+  
+  const {dataValues} = await RolesModel.update({role}, {
+    where: {
+      id
+    }
+  })
+
+  Response.success(res, 'Usuario actualizado');
 };
 
 //delete role
-const deleteRoles = (req, res) => {
+const deleteRoles = async (req, res) => {
+  const {id} = req.params;
+  const {role} = req.params;
 
+  await RolesModel.destroy({role}, {
+    where: {
+      id
+    }
+  })
+
+  Response.custom(res, 204,'Usuario eliminado');
 };
 
 export { getAllRoles, postRoles, putRoles, deleteRoles }

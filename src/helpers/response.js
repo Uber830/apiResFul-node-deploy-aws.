@@ -11,7 +11,7 @@ export class Response {
 
   //message of error
   static error(res, code, error) {
-    return res.status(code).json({ error: error });
+    return res.status(code).json({ error: error.message });
   }
 
   //message for defaul
