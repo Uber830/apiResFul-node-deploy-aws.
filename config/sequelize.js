@@ -20,9 +20,9 @@ async function dbConnectMysql() {
     await sequelize.sync({force: false}) //create tables if not exist or delete and create
     await sequelize.authenticate();
     
-    console.log('Connection to aws mysql!');
+    console.log('Connection to mysql local!');
   }catch(err){
-    console.log('Error of connection to aws mysql \n', err);
+    console.log('Error of connection to mysql \n', err);
   }
 }
 
